@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 
-internal class Bankplade
+internal class Bankoplade
 {
     public string Id { get; }
     public List<List<int>> Rækker { get; }
 
-    public Bankplade(string id, List<List<int>> rækker)
+
+    // Bankoplade-klassen viser en bankoplade med et unikt ID og en liste af talrækker.
+    public Bankoplade(string id, List<List<int>> rækker)
     {
         Id = id;
         Rækker = rækker;
     }
 
+
+    // KrydsAf-metoden markerer et bestemt nummer på bankopladen ved at ændre det til 0.
     public void KrydsAf(int nummer)
     {
         for (int række = 0; række < Rækker.Count; række++)
@@ -27,6 +31,7 @@ internal class Bankplade
         }
     }
 
+    // HarVundetRække-metoden tjekker, om en specifik række på bankopladen er blevet vundet (alle tal er krydset af).
     public bool HarVundetRække(int rækkeIndex)
     {
         return Rækker[rækkeIndex].All(tal => tal == 0);
@@ -42,7 +47,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        List<Bankplade> bankplader = new List<Bankplade>();
+        List<Bankoplade> bankplader = new List<Bankoplade>();
         List<List<List<int>>> bankopladerTal = new List<List<List<int>>>
         {
             // Definition af de fem bankoplader med talrækker.
@@ -79,19 +84,24 @@ internal class Program
             }
         };
 
+        // Hvis antallet af bankoplader ikke er 5 eller mere, udskriver vi en fejlmeddelelse.
         if (bankopladerTal.Count != 5)
         {
-            Console.WriteLine("Antallet af bankoplader skal være 5.");
+            Console.WriteLine("Antallet af bankoplader skal være minimum 5.");
             return;
         }
 
+
+        // Beder brugeren om at indtaste et unikt ID for hver bankoplade.
         for (int i = 0; i < 5; i++)
         {
-            Console.Write("Indtast ID for bankplade " + (i + 1) + ": ");
+            Console.Write("Indtast ID for bankoplade " + (i + 1) + ": ");
             string id = Console.ReadLine();
-            Bankplade nyBankplade = new Bankplade(id, bankopladerTal[i]);
+            Bankoplade nyBankplade = new Bankoplade(id, bankopladerTal[i]);
             Console.WriteLine("Færdig plade for " + id + ":");
 
+
+            // Opretter en ny bankoplade med det indtastede ID og de tilhørende talrækker.
             for (int række = 0; række < 3; række++)
             {
                 Console.Write("Række " + (række + 1) + ": ");
@@ -106,10 +116,14 @@ internal class Program
             bankplader.Add(nyBankplade);
         }
 
+
+        // Starter en løkke, der fortsætter, indtil brugeren indtaster -1
         int råbtTal;
+        Console.WriteLine("Nu kan du begynde at skrive tal ind der bliver råbt op!");
+        Console.WriteLine("Held og lykke! Og husk det er kun snyd, hvis det bliver opdaget ;)");
         while ((råbtTal = Convert.ToInt32(Console.ReadLine())) != -1)
         {
-            foreach (Bankplade plade in bankplader)
+            foreach (Bankoplade plade in bankplader)
             {
                 plade.KrydsAf(råbtTal);
                 bool harVundetRække = false;
